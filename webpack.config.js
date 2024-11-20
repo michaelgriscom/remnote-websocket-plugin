@@ -7,6 +7,7 @@ const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const { ProvidePlugin, BannerPlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 const CopyPlugin = require('copy-webpack-plugin');
 
@@ -18,6 +19,9 @@ const fastRefresh = isDevelopment ? new ReactRefreshWebpackPlugin() : null;
 const SANDBOX_SUFFIX = '-sandbox';
 
 const config = {
+  externals: {
+    ws: 'commonjs ws', // Tell Webpack not to bundle ws
+  },
   mode: isProd ? 'production' : 'development',
   entry: glob.sync('./src/widgets/**.tsx').reduce(function (obj, el) {
     obj[path.parse(el).name] = el;
@@ -93,6 +97,7 @@ const config = {
       ]
     }),
     fastRefresh,
+    new NodePolyfillPlugin(),
   ].filter(Boolean),
 };
 

@@ -5,7 +5,9 @@ import {
   } from '@remnote/plugin-sdk';
   import { createRem } from '../lib/api';
   import { useState, useEffect } from 'react';
-  
+//   import WebSocket, { WebSocketServer } from 'ws';
+  import WebSocket from 'ws';
+
   interface LogEntry {
     timestamp: string;
     type: 'request' | 'response' | 'error';
@@ -37,8 +39,36 @@ import {
   
     useTracker(async (reactApi) => {
       try {
-        const server = new WebSocket(`ws://localhost:${port}`);
-        
+        const wss = new WebSocket.Server({ port });
+
+        wss.on('connection', (ws: WebSocket) => {
+            addLog('response', 'New client connected.');
+          
+            // Handle messages from the client
+            ws.on('message', (message: string) => {
+              addLog('request', `Received: ${message}`);
+          
+              // Echo the message back to the client
+              ws.send(`Server received: ${message}`);
+            });
+          
+            // Handle client disconnection
+            ws.on('close', () => {
+              addLog('response', 'Client disconnected.');
+            });
+          
+            // Handle errors
+            ws.on('error', (error) => {
+              addLog('error', 'WebSocket error:' + error);
+            });
+          
+            // Send a welcome message
+            ws.send('Welcome to the WebSocket server!');
+          });
+
+          return () => {wss.close();}
+
+        /**
         server.onopen = () => {
           setIsConnected(true);
           addLog('response', `Connected on port ${port}`);
@@ -84,6 +114,7 @@ import {
         return () => {
           server.close();
         };
+        */
       } catch (error) {
         addLog('error', `Failed to start server: ${error}`);
       }
