@@ -1,10 +1,10 @@
 {
+  "id": "michaelgriscom-websocket",
+  "name": "websocket",
+  "description": "expose a websocket from remnote",
   "author": "michaelgriscom",
-  "name": "rem8n",
-  "description": "connect remnote to n8n",
   "enableOnMobile": false,
-  "id": "michaelgriscom-sjwsm2e",
-  "repoUrl": "https://github.com/michaelgriscom/rem8n",
+  "repoUrl": "https://github.com/michaelgriscom/remnote-websocket-plugin",
   "manifestVersion": 1,
   "version": {
     "major": 0,
@@ -17,11 +17,5 @@
       "type": "All",
       "level": "ReadCreate"
     }
-  ],
-  "widgets": {
-    "server": {
-      "type": "backend",
-      "hidden": true
-    }
-  }
+  ]
 }

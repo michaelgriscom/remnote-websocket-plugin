@@ -1,6 +1,5 @@
 {
-  "private": true,
-  "name": "remnote-plugin-template-react",
+  "name": "remnote-websocket-plugin",
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
