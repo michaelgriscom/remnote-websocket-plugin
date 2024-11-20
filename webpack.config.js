@@ -19,9 +19,9 @@ const fastRefresh = isDevelopment ? new ReactRefreshWebpackPlugin() : null;
 const SANDBOX_SUFFIX = '-sandbox';
 
 const config = {
-  externals: {
-    ws: 'commonjs ws', // Tell Webpack not to bundle ws
-  },
+  // externals: {
+  //   ws: 'commonjs ws', // Tell Webpack not to bundle ws
+  // },
   mode: isProd ? 'production' : 'development',
   entry: glob.sync('./src/widgets/**.tsx').reduce(function (obj, el) {
     obj[path.parse(el).name] = el;
@@ -36,6 +36,11 @@ const config = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    // alias: {
+    //   // ...
+    //   'ws': path.resolve(path.join('/Users/griscom/git/remnote-n8n', 'node_modules/ws/index.js' )) // fix for https://github.com/websockets/ws/issues/1538
+    // },
+    mainFields: ['main', 'browser']
   },
   module: {
     rules: [

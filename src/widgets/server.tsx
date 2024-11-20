@@ -6,7 +6,9 @@ import {
   import { createRem } from '../lib/api';
   import { useState, useEffect } from 'react';
 //   import WebSocket, { WebSocketServer } from 'ws';
-  import WebSocket from 'ws';
+//   import WebSocket from 'ws';
+import WebSocket, { WebSocketServer as WSWebSocketServer } from 'ws';
+const WebSocketServer = WebSocket.Server || WSWebSocketServer;
 
   interface LogEntry {
     timestamp: string;
@@ -39,7 +41,7 @@ import {
   
     useTracker(async (reactApi) => {
       try {
-        const wss = new WebSocket.Server({ port });
+        const wss = new WebSocketServer({ port });
 
         wss.on('connection', (ws: WebSocket) => {
             addLog('response', 'New client connected.');
